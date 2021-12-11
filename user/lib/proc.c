@@ -12,7 +12,17 @@ void yield(void)
     sys_yield();
 }
 
-uintptr_t mmap(unsigned int size, unsigned int perm, unsigned int flag)
+uintptr_t mmap(unsigned int size, unsigned int perm, unsigned int flag, unsigned int vaddr)
 {
-    return sys_mmap(size, perm, flag);
+    return sys_mmap(size, perm, flag, vaddr);
+}
+
+void write(unsigned int vaddr, char data)
+{
+    sys_write(vaddr, data);
+}
+
+char read(unsigned int vaddr)
+{
+    return sys_read(vaddr);
 }

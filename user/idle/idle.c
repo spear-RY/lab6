@@ -24,7 +24,8 @@ int main(int argc, char **argv)
     else
         printf("Failed to launch ding.\n");
 
-    int32_t ss = mmap(10, 100, 1000);
+    int32_t ss = mmap(10, 100, SUPER, 1000);
+    // int32_t ss = mmap(10, 100, CONSECUTIVE, 1000);
     printf("s: %d\n", ss);
 
     /*if ((fork_pid = spawn(4, 1000)) != -1)

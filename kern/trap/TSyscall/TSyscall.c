@@ -7,6 +7,9 @@
 
 #include "import.h"
 
+#define SUPER 200
+#define CONSECUTIVE 300
+
 static char sys_buf[NUM_IDS][PAGESIZE];
 
 /**
@@ -164,6 +167,7 @@ void sys_mmap(void)
     unsigned int size = syscall_get_arg2();
     unsigned int perm = syscall_get_arg3();
     unsigned int flag = syscall_get_arg4();
+    unsigned int vaddr = syscall_get_arg5();
 
     unsigned int quota = container_get_quota(curid);
     unsigned int usage = container_get_usage(curid);
@@ -187,13 +191,16 @@ void sys_mmap(void)
 
     if(reg_page == MagicNumber)
     {
-        fail;
+        syscall_set_errno(E_MEM);
+        syscall_set_retval1(MagicNumber);
+        return;
     }
 
     syscall_set_errno(E_SUCC);
-    syscall_set_retval1(size + perm + flag);
+    syscall_set_retval1(reg_page); //我看你alloc_super_page的返回值就是get_ptb_entry所以我就直接在这里return了
 }
 
+//我把write和read给你连回user process了，在那边直接write，read就行
 void sys_write(void)//only support writing char
 {
     const unsigned int PTE_W 0x002;
@@ -211,14 +218,15 @@ void sys_write(void)//only support writing char
 
     if((ptbl_entry&PTE_W)==0)//unwritable. call trap -> pagefault handler
     {
-
+        //不确定是不是能直接叫 void pgflt_handler(void);
+        pgflt_handler();
     }
 
     char* target = (ptbl_entry&0xFFFFF000)+(vaddr&0x00000FFF);
     *target = data;
 
     syscall_set_errno(E_SUCC);
-    syscall_set_retval1(size + perm + flag);
+    return;
 }
 
 void sys_read(void)//only support reading char
@@ -232,13 +240,12 @@ void sys_read(void)//only support reading char
 
     if((ptbl_entry&PTE_W)==0)//unwritable. call trap -> pagefault handler
     {
-
+        pgflt_handler();
     }
 
     char* target = (ptbl_entry&0xFFFFF000)+(vaddr&0x00000FFF);
     char res = *target;//return res;
 
     syscall_set_errno(E_SUCC);
-    syscall_set_retval1(size + perm + flag);
+    syscall_set_retval1(res);
 }
-

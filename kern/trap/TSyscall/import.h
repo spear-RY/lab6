@@ -21,6 +21,7 @@ void syscall_set_retval5(unsigned int retval);
 unsigned int proc_create(void *elf_addr, unsigned int quota);
 unsigned int proc_fork(void);
 void thread_yield(void);
+void pgflt_handler(void);
 
 #endif  /* _KERN_ */
 
