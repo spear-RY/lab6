@@ -11,3 +11,8 @@ void yield(void)
 {
     sys_yield();
 }
+
+uintptr_t mmap(unsigned int size, unsigned int perm, unsigned int flag)
+{
+    return sys_mmap(size, perm, flag);
+}

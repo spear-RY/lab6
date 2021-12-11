@@ -156,3 +156,20 @@ void sys_fork()
     }
     return;
 }
+
+
+void sys_mmap(void)
+{
+    unsigned int curid = get_curid();
+    unsigned int size = syscall_get_arg2();
+    unsigned int perm = syscall_get_arg3();
+    unsigned int flag = syscall_get_arg4();
+
+    unsigned int quota = container_get_quota(curid);
+    unsigned int usage = container_get_usage(curid);
+
+    KERN_INFO("In process %d, size: %d, perm: %d, flag: %d\n",curid, size, perm, flag);
+
+    syscall_set_errno(E_SUCC);
+    syscall_set_retval1(size + perm + flag);
+}

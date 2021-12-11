@@ -33,6 +33,7 @@ enum __syscall_nr {
      */
     SYS_puts = 0,   /* output a string to the screen */
     SYS_spawn,      /* create a new process */
+    SYS_mmap,
 
     SYS_yield,      /* yield to another process */
     SYS_fork,

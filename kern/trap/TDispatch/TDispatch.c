@@ -59,6 +59,9 @@ void syscall_dispatch(void)
     case SYS_fork:
         sys_fork();
         break;
+    case SYS_mmap:
+        sys_mmap();
+        break;
     default:
         syscall_set_errno(E_INVAL_CALLNR);
     }

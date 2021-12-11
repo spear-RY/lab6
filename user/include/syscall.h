@@ -57,4 +57,21 @@ static gcc_inline pid_t sys_fork(void)
     return pid;
 }
 
+static gcc_inline uintptr_t sys_mmap(unsigned int size, unsigned int perm, unsigned int flag)
+{
+    int errno;
+    uintptr_t ptr;
+
+    asm volatile ("int %2"
+                  : "=a" (errno), "=b" (ptr)
+                  : "i" (T_SYSCALL),
+                    "a" (SYS_mmap),
+                    "b" (size),
+                    "c" (perm),
+                    "d" (flag)
+                  : "cc", "memory");
+
+    return errno ? -1 : ptr;
+}
+
 #endif  /* !_USER_SYSCALL_H_ */
