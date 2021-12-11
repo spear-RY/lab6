@@ -170,6 +170,75 @@ void sys_mmap(void)
 
     KERN_INFO("In process %d, size: %d, perm: %d, flag: %d\n",curid, size, perm, flag);
 
+    unsigned int reg_page;
+
+    if(flag == SUPER)//Request a super page
+    {
+        reg_page = alloc_super_page(curid, vaddr, perm);
+    }
+    else if(flag == CONSECUTIVE)//Request consecutive pages
+    {
+        reg_page = alloc_consecutive_page(curid, vaddr, perm, size);
+    }
+    else
+    {
+        reg_page = alloc_page(curid, vaddr, perm);
+    }
+
+    if(reg_page == MagicNumber)
+    {
+        fail;
+    }
+
     syscall_set_errno(E_SUCC);
     syscall_set_retval1(size + perm + flag);
 }
+
+void sys_write(void)//only support writing char
+{
+    const unsigned int PTE_W 0x002;
+
+    unsigned int curid = get_curid();
+    unsigned int vaddr = syscall_get_arg2();
+    char data = syscall_get_arg3();
+
+    // unsigned int quota = container_get_quota(curid);
+    // unsigned int usage = container_get_usage(curid);
+
+    // KERN_INFO("In process %d, size: %d, perm: %d, flag: %d\n",curid, size, perm, flag);
+
+    unsigned int ptbl_entry = get_ptbl_entry_by_va(curid, vaddr);
+
+    if((ptbl_entry&PTE_W)==0)//unwritable. call trap -> pagefault handler
+    {
+
+    }
+
+    char* target = (ptbl_entry&0xFFFFF000)+(vaddr&0x00000FFF);
+    *target = data;
+
+    syscall_set_errno(E_SUCC);
+    syscall_set_retval1(size + perm + flag);
+}
+
+void sys_read(void)//only support reading char
+{
+    const unsigned int PTE_W 0x002;
+
+    unsigned int curid = get_curid();
+    unsigned int vaddr = syscall_get_arg2();
+
+    unsigned int ptbl_entry = get_ptbl_entry_by_va(curid, vaddr);
+
+    if((ptbl_entry&PTE_W)==0)//unwritable. call trap -> pagefault handler
+    {
+
+    }
+
+    char* target = (ptbl_entry&0xFFFFF000)+(vaddr&0x00000FFF);
+    char res = *target;//return res;
+
+    syscall_set_errno(E_SUCC);
+    syscall_set_retval1(size + perm + flag);
+}
+
