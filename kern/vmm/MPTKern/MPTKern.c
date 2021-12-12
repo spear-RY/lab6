@@ -70,7 +70,7 @@ unsigned int map_consecutive_page(unsigned int proc_index, unsigned int vaddr,
             }
         }
         set_ptbl_entry_by_va(proc_index, vaddr_now, page_now, perm);
-        dprintf("pid: %d, len: %d, super: %d, pde_idx: %d, pte_idx: %d\n", proc_index, i, get_ptbl_entry_by_va(proc_index, vaddr_now)&P_SUPER, vaddr_now>>22, (vaddr_now&0x003FF000)>>12);
+        //dprintf("pid: %d, len: %d, super: %d, pde_idx: %d, pte_idx: %d\n", proc_index, i, get_ptbl_entry_by_va(proc_index, vaddr_now)&P_SUPER, vaddr_now>>22, (vaddr_now&0x003FF000)>>12);
         vaddr_now += page_size;
         page_now++;
     }

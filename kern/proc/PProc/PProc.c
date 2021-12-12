@@ -61,11 +61,11 @@ unsigned int proc_fork(void)
     {
         memcpy(&uctx_pool[pid], &uctx_pool[id], sizeof(uctx_pool[id]));
 
-        dprintf("memcpy succeed.\n");
+        //dprintf("memcpy succeed.\n");
 
         vmm_copy(id, pid);//copy pdir and ptbl
 
-        dprintf("proc and vmm_copy succeed.\n");
+        //dprintf("proc and vmm_copy succeed.\n");
         return pid;
     }
     else

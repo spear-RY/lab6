@@ -8,7 +8,7 @@ void vmm_copy(unsigned int from_id, unsigned int to_id)
 
     unsigned int from_ptbl_entry;
     unsigned int from_pdir_entry;
-    dprintf("enter vmm_copy.\n");
+    //dprintf("enter vmm_copy.\n");
     for(unsigned int pde_index=256; pde_index<960; pde_index++)
     {
         from_pdir_entry = get_pdir_entry(from_id, pde_index);
@@ -24,7 +24,7 @@ void vmm_copy(unsigned int from_id, unsigned int to_id)
         }
         set_pdir_entry(to_id, pde_index, page_index);
 
-        dprintf("pde_index:%d\n",pde_index);
+        //dprintf("pde_index:%d\n",pde_index);
 
         for(unsigned int pte_index=0; pte_index<1024; pte_index++)
         {
@@ -33,17 +33,17 @@ void vmm_copy(unsigned int from_id, unsigned int to_id)
             {
                 continue;
             }
-            dprintf("pid: %d, super: %d, pde_idx: %d, pte_idx: %d\n", from_id, from_ptbl_entry&P_SUPER, pde_index, pte_index);
+            //dprintf("pid: %d, super: %d, pde_idx: %d, pte_idx: %d\n", from_id, from_ptbl_entry&P_SUPER, pde_index, pte_index);
 
             if(from_ptbl_entry&P_SUPER)
             {
-                dprintf("vmm set (super)\n");
+                //dprintf("vmm set (super)\n");
                 set_ptbl_entry(from_id, pde_index, pte_index, from_ptbl_entry>>12, PTE_P | PTE_U | PTE_COW | P_SUPER);
                 set_ptbl_entry(to_id, pde_index, pte_index, from_ptbl_entry>>12, PTE_P | PTE_U | PTE_COW | P_SUPER);
             }
             else
             {
-                dprintf("vmm set (common)\n");
+                //dprintf("vmm set (common)\n");
                 set_ptbl_entry(from_id, pde_index, pte_index, from_ptbl_entry>>12, PTE_P | PTE_U | PTE_COW);
                 set_ptbl_entry(to_id, pde_index, pte_index, from_ptbl_entry>>12, PTE_P | PTE_U | PTE_COW);
             }
