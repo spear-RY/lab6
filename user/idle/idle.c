@@ -19,7 +19,7 @@ int main(int argc, char **argv)
     // else
     //     printf("Failed to launch pong.\n");
 
-    if ((ding_pid = spawn(3, 30000)) != -1)
+    if ((ding_pid = spawn(3, 5000)) != -1)
         printf("ding in process %d.\n", ding_pid);
     else
         printf("Failed to launch ding.\n");

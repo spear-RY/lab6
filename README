@@ -4,23 +4,84 @@ Run in qemu: make qemu / make qemu-nox
 Debug with gdb: make qemu-gdb / make qemu-nox-gdb
                 (in another terminal) gdb
 
-
 To use your solutions from lab 1: git merge lab1
 To use sample lab 1 solutions: copy files in samples/ to appropriate directories
 
+## source /c/cs422/env.sh
+
+# Start Lab 3
+
 List here the following info:
 1. who you have worked with
-I collaborated with Jingyu Yao. We have discussed the concepts of this assignment.
+Jingyu Yao and Yiran Zhu. We each submit our own version but we collaborated and communicated ideas and implementation.
 
 2. whether you coded this assignment together, and if not, who worked on which part
-Though we collaborated, we implemented this assginment individually. That is to say, this work is entirely done on my own.
+All code by myself.
 
 3. brief description of what you have implemented
-Following the instruction, I implemented PKCtxIntro Layer, PKCtxNew Layer, PTCBInit Layer, PTQueueInit Layer, PThread Layer, 
-Trap Handling, including TSyscallArg Layer, TSyscall Layer, TTrapHandler Layer,
-Fork, including a new MPTFork Layer, proc_fork in PProc.c.
-After the implementation, the instruction startuser could be executed properly.
-I commented out the system call of fork in idle.c because it was not compatible with pingpongding. 
-However, the system call of fork is able to run properly on this kernel.
+Excercise 1-10 for part 1 to part 3. All code tested to be working.
+Thread layer tested via given test cases.
+Trap layer tested via given ping pong ding function.
+Fork tested via fork test: both parent and child forks.
+
+Bonus not implemented.
 
 4. and anything else you would like us to know
+
+# End Lab 3
+
+# Start Lab 2
+
+List here the following info:
+1. who you have worked with
+Jingyu Yao and Yiran Zhu. We each submit our own version but we collaborated and communicated ideas and implementation.
+
+2. whether you coded this assignment together, and if not, who worked on which part
+All code by myself.
+
+3. brief description of what you have implemented
+All layers from Countainer to New, nothing else implemented. All given tests passed.
+
+4. and anything else you would like us to know
+
+# End Lab 2
+
+# Start Lab 1
+Group members: Jingyu Yao
+
+Work done:
+Question A and excersies; implementation of three MAT layers; implementation of octal display; implementation of backtrace.
+
+Question A
+
+At what point does the processor start executing 32-bit code? What exactly causes the switch from 16- to 32-bit mode?
+Line 111 in boot1, ljmp	$PROT_MODE_CSEG, $protcseg, the processor swtiches to 32-bit protected mode. The ljmp jumps the processor to $protcseg, above which the phrase .code32  causes the bootloader swtich to execute 32-bit mode.
+
+What is the last instruction of the boot loader executed, and what is the first instruction of the kernel it just loaded?
+Bootloader: 0x8f26 <exec_kernel+14>: jmp *%edx in exec_kernel.S
+Kernel: 0x102400 <start> cli in entry.S
+
+Where is the first instruction of the kernel?
+0x102400
+
+How does the boot loader decide how many sectors it must read in order to fetch the entire kernel from disk? Where does it find this information?
+readsection((uint32_t) ELFHDR, SECTOR_SIZE * 8, 0, dkernel);
+Fetch eight sectors with each being size 512 bytes. This information is hardcoded into the readsection call.
+
+
+Exercise 3
+Error starts happening as early as the line movw	$STARTUP_MSG, %si. The linker would link STARTUP_MSG to a wrong position but this still does not break the program. However,
+as we proceed to jmp	BOOT1, the is the position where the boot1 is linked and a wrong address would cause a wrong jump. Depending on the wrong address given, the consequences
+includes hang, fatal errors on invalid memory, etc.
+
+Writeup:
+
+The MATIntro Layer: Wrote simple getters and setters according to the given helper funtions and documentation above, nothiing fancy. Tested using provided test cases. Passed all tests.
+
+The MATInit Layer: All space are initialized to 0 permission and then the space reserved by kernel are set to 1. I then extrated the info from the table given by the BIOS, and used two lists to track the memory spaces that are avialable to me. I then check for each page to see if the entire page can fit into available space, and the available ones are set to 2. The initialization is tested with the provided test case, but I notice there might be omissions in the test case(however test cases for The MATOp will have to have a working initialization to pass). I further tested my code by going into GDB and seeing the values for AT[]. Test passes and AT[] permissions seems to be correct.
+
+The MATOp Layer: Use memoization to find the first available page and allocate it. Straightforward. Tested using provided test cases. Passed all tests.
+
+Formatting and backtrace tested in runtime by printing in octal and invoking the backtrace function. Tested to be working and have similar outputs shown in lab instructions.
+
+# End Lab 1
