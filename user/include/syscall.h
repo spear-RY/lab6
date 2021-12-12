@@ -57,7 +57,7 @@ static gcc_inline pid_t sys_fork(void)
     return pid;
 }
 
-static gcc_inline uintptr_t sys_mmap(unsigned int size, unsigned int perm, unsigned int flag， unsigned int vaddr)
+static gcc_inline uintptr_t sys_mmap(unsigned int size, unsigned int perm, unsigned int flag, unsigned int vaddr)
 {
     int errno;
     uintptr_t ptr;
@@ -75,30 +75,30 @@ static gcc_inline uintptr_t sys_mmap(unsigned int size, unsigned int perm, unsig
     return errno ? -1 : ptr;
 }
 
-static gcc_inline void sys_write(unsigned int vaddr, char data)
-{
-    asm volatile ("int %2"
-                  : "=a" (errno), "=b" (pid)
-                  : "i" (T_SYSCALL),
-                    "a" (SYS_write),
-                    "b" (vaddr),
-                    "c" (data)
-                  : "cc", "memory");
-}
+// static gcc_inline void sys_write(unsigned int vaddr, char data)
+// {
+//     asm volatile ("int %2"
+//                   : "=a" (errno), "=b" (pid)
+//                   : "i" (T_SYSCALL),
+//                     "a" (SYS_write),
+//                     "b" (vaddr),
+//                     "c" (data)
+//                   : "cc", "memory");
+// }
 
-static gcc_inline char sys_read(unsigned int vaddr)
-{
-    int errno;
-    char data;
+// static gcc_inline char sys_read(unsigned int vaddr)
+// {
+//     int errno;
+//     char data;
 
-    asm volatile ("int %2"
-                  : "=a" (errno), "=b" (data)
-                  : "i" (T_SYSCALL),
-                    "a" (SYS_read),
-                    "b" (vaddr)
-                  : "cc", "memory");
+//     asm volatile ("int %2"
+//                   : "=a" (errno), "=b" (data)
+//                   : "i" (T_SYSCALL),
+//                     "a" (SYS_read),
+//                     "b" (vaddr)
+//                   : "cc", "memory");
 
-    return errno ? -1 : data;
-}
+//     return errno ? -1 : data;
+// }
 
 #endif  /* !_USER_SYSCALL_H_ */

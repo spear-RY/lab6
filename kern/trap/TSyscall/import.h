@@ -23,6 +23,14 @@ unsigned int proc_fork(void);
 void thread_yield(void);
 void pgflt_handler(void);
 
+unsigned int container_get_quota(unsigned int id);
+
+unsigned int alloc_super_page(unsigned int proc_index, unsigned int vaddr, unsigned int perm);
+unsigned int alloc_consecutive_page(unsigned int proc_index, unsigned int vaddr, unsigned int perm, unsigned int len);
+unsigned int alloc_page(unsigned int proc_index, unsigned int vaddr, unsigned int perm);
+
+unsigned int get_ptbl_entry_by_va(unsigned int proc_index, unsigned int vaddr);
+
 #endif  /* _KERN_ */
 
 #endif  /* !_KERN_TRAP_TSYSCALL_H_ */

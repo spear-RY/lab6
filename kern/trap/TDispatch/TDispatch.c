@@ -62,12 +62,12 @@ void syscall_dispatch(void)
     case SYS_mmap:
         sys_mmap();
         break;
-    case SYS_write:
-        sys_write();
-        break;
-    case SYS_read:
-        sys_read();
-        break;
+    // case SYS_write:
+    //     sys_write();
+    //     break;
+    // case SYS_read:
+    //     sys_read();
+    //     break;
     default:
         syscall_set_errno(E_INVAL_CALLNR);
     }

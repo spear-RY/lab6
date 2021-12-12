@@ -17,12 +17,12 @@ uintptr_t mmap(unsigned int size, unsigned int perm, unsigned int flag, unsigned
     return sys_mmap(size, perm, flag, vaddr);
 }
 
-void write(unsigned int vaddr, char data)
-{
-    sys_write(vaddr, data);
-}
+// void write(unsigned int vaddr, char data)
+// {
+//     sys_write(vaddr, data);
+// }
 
-char read(unsigned int vaddr)
-{
-    return sys_read(vaddr);
-}
+// char read(unsigned int vaddr)
+// {
+//     return sys_read(vaddr);
+// }

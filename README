@@ -1,0 +1,26 @@
+Compile: make / make all
+Run tests: make clean && make TEST=1
+Run in qemu: make qemu / make qemu-nox
+Debug with gdb: make qemu-gdb / make qemu-nox-gdb
+                (in another terminal) gdb
+
+
+To use your solutions from lab 1: git merge lab1
+To use sample lab 1 solutions: copy files in samples/ to appropriate directories
+
+List here the following info:
+1. who you have worked with
+I collaborated with Jingyu Yao. We have discussed the concepts of this assignment.
+
+2. whether you coded this assignment together, and if not, who worked on which part
+Though we collaborated, we implemented this assginment individually. That is to say, this work is entirely done on my own.
+
+3. brief description of what you have implemented
+Following the instruction, I implemented PKCtxIntro Layer, PKCtxNew Layer, PTCBInit Layer, PTQueueInit Layer, PThread Layer, 
+Trap Handling, including TSyscallArg Layer, TSyscall Layer, TTrapHandler Layer,
+Fork, including a new MPTFork Layer, proc_fork in PProc.c.
+After the implementation, the instruction startuser could be executed properly.
+I commented out the system call of fork in idle.c because it was not compatible with pingpongding. 
+However, the system call of fork is able to run properly on this kernel.
+
+4. and anything else you would like us to know

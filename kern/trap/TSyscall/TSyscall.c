@@ -5,6 +5,10 @@
 #include <lib/trap.h>
 #include <lib/syscall.h>
 
+#include <pmm/MContainer/export.h>
+#include <vmm/MPTFork/export.h>
+#include <vmm/MPTOp/export.h>
+
 #include "import.h"
 
 #define SUPER 200
@@ -203,7 +207,7 @@ void sys_mmap(void)
 //我把write和read给你连回user process了，在那边直接write，read就行
 void sys_write(void)//only support writing char
 {
-    const unsigned int PTE_W 0x002;
+    const unsigned int pte_w = 0x002;
 
     unsigned int curid = get_curid();
     unsigned int vaddr = syscall_get_arg2();
@@ -214,16 +218,16 @@ void sys_write(void)//only support writing char
 
     // KERN_INFO("In process %d, size: %d, perm: %d, flag: %d\n",curid, size, perm, flag);
 
-    unsigned int ptbl_entry = get_ptbl_entry_by_va(curid, vaddr);
+    // unsigned int ptbl_entry = get_ptbl_entry_by_va(curid, vaddr);
 
-    if((ptbl_entry&PTE_W)==0)//unwritable. call trap -> pagefault handler
-    {
-        //不确定是不是能直接叫 void pgflt_handler(void);
-        pgflt_handler();
-    }
+    // if((ptbl_entry&pte_w)==0)//unwritable. call trap -> pagefault handler
+    // {
+    //     //不确定是不是能直接叫 void pgflt_handler(void);
+    //     pgflt_handler();
+    // }
 
-    char* target = (ptbl_entry&0xFFFFF000)+(vaddr&0x00000FFF);
-    *target = data;
+    // char* target = (ptbl_entry&0xFFFFF000)+(vaddr&0x00000FFF);
+    // *target = data;
 
     syscall_set_errno(E_SUCC);
     return;
@@ -231,20 +235,22 @@ void sys_write(void)//only support writing char
 
 void sys_read(void)//only support reading char
 {
-    const unsigned int PTE_W 0x002;
+    const unsigned int pte_w = 0x002;
 
     unsigned int curid = get_curid();
     unsigned int vaddr = syscall_get_arg2();
 
-    unsigned int ptbl_entry = get_ptbl_entry_by_va(curid, vaddr);
+    // unsigned int ptbl_entry = get_ptbl_entry_by_va(curid, vaddr);
 
-    if((ptbl_entry&PTE_W)==0)//unwritable. call trap -> pagefault handler
-    {
-        pgflt_handler();
-    }
+    // if((ptbl_entry&PTE_W)==0)//unwritable. call trap -> pagefault handler
+    // {
+    //     pgflt_handler();
+    // }
 
-    char* target = (ptbl_entry&0xFFFFF000)+(vaddr&0x00000FFF);
-    char res = *target;//return res;
+    // char* target = (ptbl_entry&0xFFFFF000)+(vaddr&0x00000FFF);
+    // char res = *target;//return res;
+
+    char res = 0;
 
     syscall_set_errno(E_SUCC);
     syscall_set_retval1(res);
