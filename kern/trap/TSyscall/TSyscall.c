@@ -256,7 +256,7 @@ void sys_read(void)//only support reading char
     syscall_set_retval1(res);
 }
 
-void sys_adv_alloc(void)//这个改一下名，叫sys_get_ptbl_entry
+void sys_get_ptbl_entry(void)//这个改一下名，叫sys_get_ptbl_entry
 {
     unsigned int curid = get_curid();
     unsigned int vaddr = syscall_get_arg2();

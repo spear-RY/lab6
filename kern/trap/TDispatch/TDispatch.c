@@ -63,7 +63,7 @@ void syscall_dispatch(void)
         sys_mmap();
         break;
     case SYS_ADV:
-        sys_adv_alloc();
+        sys_get_ptbl_entry();
         break;
     // case SYS_write:
     //     sys_write();

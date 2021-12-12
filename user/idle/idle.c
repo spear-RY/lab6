@@ -31,7 +31,7 @@ int main(int argc, char **argv)
     // if ((fork_pid = spawn(4, 1000)) != -1)
     //     printf("fork in process %d.\n", fork_pid);
     // else
-    //     printf("Failed to launch fork.\n");*/
+    //     printf("Failed to launch fork.\n");
 
     return 0;
 }

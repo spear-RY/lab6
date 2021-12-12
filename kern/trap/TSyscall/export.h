@@ -7,7 +7,7 @@ void sys_puts(void);
 void sys_spawn(void);
 void sys_yield(void);
 void sys_mmap(void);
-void sys_adv_alloc(void);
+void sys_get_ptbl_entry(void);
 
 #endif  /* _KERN_ */
 

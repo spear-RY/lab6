@@ -57,7 +57,7 @@ static gcc_inline pid_t sys_fork(void)
     return pid;
 }
 
-static gcc_inline uint32_t sys_adv_alloc(unsigned int vaddr)
+static gcc_inline uint32_t sys_get_ptbl_entry(unsigned int vaddr)
 {
     int errno;
     uint32_t data;
