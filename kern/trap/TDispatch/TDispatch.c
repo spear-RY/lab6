@@ -62,6 +62,9 @@ void syscall_dispatch(void)
     case SYS_mmap:
         sys_mmap();
         break;
+    case SYS_ADV:
+        sys_adv_alloc();
+        break;
     // case SYS_write:
     //     sys_write();
     //     break;

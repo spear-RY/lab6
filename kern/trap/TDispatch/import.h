@@ -10,6 +10,7 @@ void sys_spawn(void);
 void sys_yield(void);
 void sys_fork(void);
 void sys_mmap(void);
+void sys_adv_alloc(void);
 
 #endif  /* _KERN_ */
 

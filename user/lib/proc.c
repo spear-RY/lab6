@@ -17,6 +17,11 @@ uintptr_t mmap(unsigned int size, unsigned int perm, unsigned int flag, unsigned
     return sys_mmap(size, perm, flag, vaddr);
 }
 
+unsigned int adv_alloc(unsigned int vaddr)
+{
+    return sys_adv_alloc(vaddr);
+}
+
 // void write(unsigned int vaddr, char data)
 // {
 //     sys_write(vaddr, data);

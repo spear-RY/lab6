@@ -57,6 +57,21 @@ static gcc_inline pid_t sys_fork(void)
     return pid;
 }
 
+static gcc_inline uint32_t sys_adv_alloc(unsigned int vaddr)
+{
+    int errno;
+    uint32_t data;
+
+    asm volatile ("int %2"
+                  : "=a" (errno), "=b" (data)
+                  : "i" (T_SYSCALL),
+                    "a" (SYS_ADV),
+                    "b" (vaddr)
+                  : "cc", "memory");
+
+    return errno ? -1 : data;
+}
+
 static gcc_inline uintptr_t sys_mmap(unsigned int size, unsigned int perm, unsigned int flag, unsigned int vaddr)
 {
     int errno;

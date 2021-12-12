@@ -25,7 +25,15 @@ int main(int argc, char **argv)
 
     pid_t pid;
 
+    unsigned int data = adv_alloc(1000);
+    printf("%d\n", data);
+
     uintptr_t mptr = mmap(1024, PTE_P | PTE_W | PTE_U, SUPER, (unsigned int)addr);
+    // printf("%d\n", mptr);
+
+    uintptr_t mptr_2 = mmap(1024, PTE_P | PTE_W | PTE_U, CONSECUTIVE, (unsigned int)addr);
+    // printf("%d\n", mptr_2);
+
     *addr = val_1;
     printf("before fork: the value at address %x: %d\n", addr, *addr);
 

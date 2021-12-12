@@ -255,3 +255,15 @@ void sys_read(void)//only support reading char
     syscall_set_errno(E_SUCC);
     syscall_set_retval1(res);
 }
+
+void sys_adv_alloc(void)
+{
+    unsigned int curid = get_curid();
+    unsigned int vaddr = syscall_get_arg2();
+    unsigned int data = 0;
+
+    KERN_INFO("ADV_alloc In process %d, vaddr: %d\n", curid, vaddr);
+
+    syscall_set_errno(E_SUCC);
+    syscall_set_retval1(data);
+}

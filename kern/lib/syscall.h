@@ -36,6 +36,7 @@ enum __syscall_nr {
     SYS_mmap,
     SYS_write,
     SYS_read,
+    SYS_ADV,
 
     SYS_yield,      /* yield to another process */
     SYS_fork,
