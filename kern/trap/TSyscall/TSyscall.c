@@ -256,14 +256,15 @@ void sys_read(void)//only support reading char
     syscall_set_retval1(res);
 }
 
-void sys_adv_alloc(void)
+void sys_adv_alloc(void)//这个改一下名，叫sys_get_ptbl_entry
 {
     unsigned int curid = get_curid();
     unsigned int vaddr = syscall_get_arg2();
-    unsigned int data = 0;
 
-    KERN_INFO("ADV_alloc In process %d, vaddr: %d\n", curid, vaddr);
+    unsigned int ptbl_entry = get_ptbl_entry_by_va(curid, vaddr);
+
+    KERN_INFO("get_ptble_entry In process %d, vaddr: %x\n", curid, vaddr);
 
     syscall_set_errno(E_SUCC);
-    syscall_set_retval1(data);
+    syscall_set_retval1(ptbl_entry);
 }
